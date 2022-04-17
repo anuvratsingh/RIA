@@ -1,3 +1,6 @@
 [submodule "q7"]
 	path = q7
 	url = https://github.com/anuvratsingh/q7
+[submodule "emu-8"]
+	path = emu-8
+	url = https://github.com/anuvratsingh/emu-8/
