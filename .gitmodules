@@ -4,3 +4,6 @@
 [submodule "emu-8"]
 	path = emu-8
 	url = https://github.com/anuvratsingh/emu-8/
+[submodule "dumbKV"]
+	path = dumbKV
+	url = https://github.com/anuvratsingh/dumbKV
