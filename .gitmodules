@@ -7,3 +7,6 @@
 [submodule "dumbKV"]
 	path = dumbKV
 	url = https://github.com/anuvratsingh/dumbKV
+[submodule "rawhttp"]
+	path = rawhttp
+	url = https://github.com/anuvratsingh/rawhttp
