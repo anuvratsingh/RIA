@@ -1,5 +1,6 @@
 use std::env;
 
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use svg::{
     node::element::{
         path::{Command, Data, Position},
@@ -97,21 +98,22 @@ impl Artist {
 }
 
 fn parse(input: &str) -> Vec<Operation> {
-    let mut steps = Vec::<Operation>::new();
-    for byte in input.bytes() {
-        let step = match byte {
-            b'0' => Operation::Home,
-            b'1'..=b'9' => {
-                let distance = (byte - 0x30) as isize; // ASCII numbers start at '0x30'
-                Operation::Forward(distance * (HEIGHT / 10))
+    input
+        .as_bytes()
+        .par_iter()
+        .map(|byte| {
+            match byte {
+                b'0' => Operation::Home,
+                b'1'..=b'9' => {
+                    let distance = (byte - 0x30) as isize; // ASCI starts at 0x30(48)
+                    Operation::Forward(distance * (HEIGHT / 10))
+                }
+                b'a' | b'b' | b'c' => Operation::TurnLeft,
+                b'd' | b'e' | b'f' => Operation::TurnRight,
+                _ => Operation::Noop(*byte),
             }
-            b'a' | b'b' | b'c' => Operation::TurnLeft,
-            b'd' | b'e' | b'f' => Operation::TurnRight,
-            _ => Operation::Noop(byte),
-        };
-        steps.push(step);
-    }
-    steps
+        })
+        .collect()
 }
 
 fn convert(ops: &Vec<Operation>) -> Vec<Command> {
